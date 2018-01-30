@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!-- Here ng-app is specifying what angualr app is being used.  -->
+<html ng-app="cardViewer">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <!-- Bringing in our CSS stylesheet -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+
+<body ng-controller="listCtrl">
+
+    <span style="font-size:3em;">
+        {{ name }}
+    </span>
+    <div class="filters">
+        Filter:
+        <input type="text" ng-model="basicFilter" class="filter" />
+    </div>
+    <button ng-click="addingNewPokemon = true" ng-hide="addingNewPokemon">Add New Cards</button>
+    
+    <div class="addNew" ng-show="addingNewPokemon">
+        <div>
+            
+            <span class="stat-label"> Name:</span>
+            <input ng-model="newPokemon.name" type="text" name="" value="">
+
+            <span class="stat-label"> Types:</span>
+            <input ng-model="newPokemon.type" type="text" name="" value="">
+
+            <span class="stat-label"> Image:</span>
+            <select ng-model="newPokemon.url" ng-options="image.url as image.name for image in images"> </select>
+
+            <span class="stat-label"> HP:</span>
+            <input ng-model="newPokemon.stats.hp" type="text" name="" value="">
+
+            <span class="stat-label"> ATK:</span>
+            <input ng-model="newPokemon.stats.atk" type="text" name="" value="">
+
+            <span class="stat-label"> DEF:</span>
+            <input ng-model="newPokemon.stats.def" type="text" name="" value="">
+
+            
+          
+            <button ng-click="addNewPokemon(newPokemon)">Add New pokemon</button>
+            <button ng-click="addingNewPokemon = false">Close Form</button>
+        </div>
+        <div>
+            
+            <div class="card">
+                <div class="name"> {{ newPokemon.name }}</div>
+                
+                <div class="picture" ng-style='{backgroundImage:"url(" + newPokemon.url + ")"}'></div>
+                <div class="stats">
+                
+                    <div class="stat"> HP: {{newPokemon.stats.hp}} </div>
+                    <div class="stat"> ATK: {{newPokemon.stats.atk}} </div>
+                    <div class="stat"> DEF: {{newPokemon.stats.def}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cardList">
+        
+        
+        <div class="card slide" ng-repeat="card in cards | filter: basicFilter" ng-class="{selected:selected}" ng-click="selected=!selected">
+            <div class="name"> {{ card.name }}</div>
+            <div class="picture" ng-style='{backgroundImage:"url(" + card.url + ")"}'></div>
+            <div class="stats">
+                
+                <div class="stat" ng-repeat="(stat, value) in card.stats">
+                    
+                    {{stat | uppercase}}: {{value}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js" charset="utf-8"></script>
+    <script src="app/app.js" charset="utf-8"></script>
+</body>
+
+</html>
